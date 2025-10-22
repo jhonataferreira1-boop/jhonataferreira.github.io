@@ -3,8 +3,10 @@ body {
     font-family: "Segoe UI", Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: rgb(244, 246, 248);
-    color: #333;
+    background-color: #9F8C76;
+    color:black;
+    
+
 }
 
 /* ====== Cabeçalho ====== */
@@ -16,29 +18,35 @@ header {
 }
 
 header h1 {
-    margin: 0;
-    font-size: 1.8em;
+    margin: 10px;
+    font-size: 2.8em;
+    border: 10px solid rgba(0, 0, 0, 0.349);
+    
 }
 
 nav ul {
     list-style: none;
-    padding: 0;
+    padding: 10px;
     margin: 1em 0 0;
+    background-color: rgba(0, 0, 0, 0.24);
+    font-size: 1.5em;
+    font-style: italic;
 }
 
 nav ul li {
     display: inline;
-    margin: 0 12px;
+    margin: 0 50px;
 }
 
 nav ul li a {
-    color: #fff;
-    text-decoration: none;
+    color:black;
+    text-decoration: underline;
     font-weight: bold;
     transition: color 0.3s;
 }
 
 nav ul li a:hover {
+    text-decoration: underline;
     color: #dedfb2;
 }
 
@@ -50,7 +58,7 @@ main {
 }
 
 form {
-    background: #fff;
+    background: #ffffffdc;
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -59,7 +67,7 @@ form {
 }
 
 fieldset {
-    border: 2px solid #009688;
+    border: 4px solid #020096;
     border-radius: 8px;
     margin-bottom: 25px;
     padding: 20px;
@@ -67,9 +75,9 @@ fieldset {
 
 legend {
     font-weight: bold;
-    color: #00695c;
+    color: #020069;
     padding: 0 8px;
-    font-size: 1.1em;
+    font-size: 2.1em;
 }
 
 label {
@@ -93,7 +101,7 @@ select {
 
 input:focus,
 select:focus {
-    border-color: #009688;
+    border-color: #0f0096;
     box-shadow: 0 0 5px rgba(0,150,136,0.4);
     outline: none;
 }
@@ -101,7 +109,7 @@ select:focus {
 /* ====== Botão ====== */
 button {
     background-color: #009688;
-    color: #fff;
+    color: black;
     border: none;
     border-radius: 6px;
     padding: 12px 20px;
@@ -119,14 +127,17 @@ button:hover {
 
 /* ====== Rodapé ====== */
 footer {
-    background-color: #00695c;
+    background-color: #130069;
     color: #fff;
     text-align: center;
     padding: 15px;
-    font-size: 0.9em;
+    font-size: 1.0em;
     margin-top: 40px;
 }img {
+    align-items: center;
     width: 450px;
+    border-radius: 30%;
+    border:5px solid rgb(0, 128, 107);
 }
 
 /* ====== Responsividade ====== */
