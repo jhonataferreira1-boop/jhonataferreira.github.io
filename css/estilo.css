@@ -1,0 +1,144 @@
+/* ====== Estilo Geral ====== */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(244, 246, 248);
+    color: #333;
+}
+
+/* ====== Cabeçalho ====== */
+header {
+    background-color: #00695c;
+    color: #fff;
+    text-align: center;
+    padding: 1.5em 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 1em 0 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 12px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #dedfb2;
+}
+
+/* ====== Formulário ====== */
+main {
+    display: flex;
+    justify-content: center;
+    padding: 40px 10px;
+}
+
+form {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+fieldset {
+    border: 2px solid #009688;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    padding: 20px;
+}
+
+legend {
+    font-weight: bold;
+    color: #00695c;
+    padding: 0 8px;
+    font-size: 1.1em;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+select:focus {
+    border-color: #009688;
+    box-shadow: 0 0 5px rgba(0,150,136,0.4);
+    outline: none;
+}
+
+/* ====== Botão ====== */
+button {
+    background-color: #009688;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #00796b;
+    transform: scale(1.02);
+}
+
+/* ====== Rodapé ====== */
+footer {
+    background-color: #00695c;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+    margin-top: 40px;
+}img {
+    width: 450px;
+}
+
+/* ====== Responsividade ====== */
+@media (max-width: 600px) {
+    form {
+        padding: 20px;
+    }
+    legend {
+        font-size: 1em;
+    }
+}
+
+.secao2 {
+    margin-left: 15px;
+}
