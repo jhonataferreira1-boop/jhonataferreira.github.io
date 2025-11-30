@@ -1,0 +1,165 @@
+Experiência Prática IV – Implementação Completa
+1. Script DDL (Criação do Banco e Tabelas)
+-- ======================================================
+-- BANCO DE DADOS DOCTOR PET (DDL COMPLETO)
+-- ======================================================
+CREATE DATABASE IF NOT EXISTS doctorpet;
+USE doctorpet;
+CREATE TABLE cliente (
+id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+cpf VARCHAR(14) NOT NULL,
+telefone VARCHAR(15) NOT NULL,
+email VARCHAR(100) NOT NULL,
+endereco VARCHAR(255) NOT NULL
+);
+CREATE TABLE veterinario (
+id_veterinario INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+crm VARCHAR(20) NOT NULL,
+especialidade VARCHAR(50) NOT NULL,
+telefone VARCHAR(15) NOT NULL,
+email VARCHAR(100) NOT NULL
+);
+CREATE TABLE servico (
+id_servico INT AUTO_INCREMENT PRIMARY KEY,
+descricao VARCHAR(100) NOT NULL,
+preco FLOAT NOT NULL,
+tipo_servico VARCHAR(50) NOT NULL
+);
+CREATE TABLE animal (
+id_animal INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+especie VARCHAR(50) NOT NULL,
+raca VARCHAR(50) NOT NULL,
+data_nascimento DATE NOT NULL,
+sexo VARCHAR(10) NOT NULL,
+peso FLOAT,
+id_cliente INT NOT NULL,
+CONSTRAINT fk_animal_cliente
+FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+CREATE TABLE agendamento (
+id_agendamento INT AUTO_INCREMENT PRIMARY KEY,
+id_cliente INT NOT NULL,
+id_veterinario INT NOT NULL,
+data_agendamento DATE NOT NULL,
+hora_agendamento TIME NOT NULL,
+id_servico INT NOT NULL,
+CONSTRAINT fk_agendamento_cliente
+FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_agendamento_vet
+FOREIGN KEY (id_veterinario) REFERENCES veterinario(id_veterinario)
+ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_agendamento_servico
+FOREIGN KEY (id_servico) REFERENCES servico(id_servico)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+CREATE TABLE atendimento (
+id_atendimento INT AUTO_INCREMENT PRIMARY KEY,
+data_atendimento DATETIME NOT NULL,
+id_animal INT NOT NULL,
+id_veterinario INT NOT NULL,
+id_servico INT NOT NULL,
+diagnostico TEXT,
+prescricao TEXT,
+CONSTRAINT fk_atendimento_animal
+FOREIGN KEY (id_animal) REFERENCES animal(id_animal)
+ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_atendimento_veterinario
+FOREIGN KEY (id_veterinario) REFERENCES veterinario(id_veterinario)
+ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_atendimento_servico
+FOREIGN KEY (id_servico) REFERENCES servico(id_servico)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+CREATE TABLE exame (
+id_exame INT AUTO_INCREMENT PRIMARY KEY,
+id_atendimento INT NOT NULL,
+tipo_exame VARCHAR(100) NOT NULL,
+resultado TEXT,
+data_realizacao DATE NOT NULL,
+CONSTRAINT fk_exame_atendimento
+FOREIGN KEY (id_atendimento) REFERENCES atendimento(id_atendimento)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+2. Script de Inserção de Dados (INSERT)
+-- ======================================================
+-- INSERTS COMPLETOS
+-- ======================================================
+INSERT INTO cliente (nome, cpf, telefone, email, endereco) VALUES
+('João Silva', '123.456.789-10', '(11)99999-1111', 'joao@gmail.com', 'Rua das Flores, 120'),
+('Maria Ferreira', '987.654.321-00', '(11)98888-2222', 'maria@gmail.com', 'Av. Brasil, 450'),
+('Carlos Souza', '555.333.222-11', '(11)97777-3333', 'carlos@gmail.com', 'Rua Verde, 80');
+INSERT INTO veterinario (nome, crm, especialidade, telefone, email) VALUES
+('Dr. Pedro Almeida', 'CRM-0012', 'Clínico Geral', '(11)90000-1111', 'pedro@clinicavet.com'),
+('Dra. Ana Rocha', 'CRM-0045', 'Cirurgiã', '(11)90000-2222', 'ana@clinicavet.com');
+INSERT INTO servico (descricao, preco, tipo_servico) VALUES
+('Consulta veterinária', 120.00, 'Consulta'),
+('Vacinação V8', 90.00, 'Vacina'),
+('Exame de sangue', 150.00, 'Exame');
+INSERT INTO animal (nome, especie, raca, data_nascimento, sexo, peso, id_cliente) VALUES
+('Rex', 'Cachorro', 'Labrador', '2020-05-10', 'Macho', 30.5, 1),
+('Mel', 'Cachorro', 'Poodle', '2019-11-20', 'Fêmea', 8.2, 2),
+('Nina', 'Gato', 'Siamês', '2021-04-18', 'Fêmea', 4.1, 3);
+INSERT INTO agendamento (id_cliente, id_veterinario, data_agendamento, hora_agendamento, id_servico) (1, 1, '2024-10-10', '09:00:00', 1),
+(2, 2, '2024-10-11', '14:30:00', 3),
+(3, 1, '2024-10-12', '11:00:00', 2);
+INSERT INTO atendimento (data_atendimento, id_animal, id_veterinario, id_servico, diagnostico, prescricao) ('2024-10-10 09:15:00', 1, 1, 1, 'Infecção leve', 'Antibiótico por 7 dias'),
+('2024-10-11 14:40:00', 2, 2, 3, 'Exame preventivo', 'Nenhuma prescrição'),
+('2024-10-12 11:20:00', 3, 1, 2, 'Vacinação anual', 'Reforço em 30 dias');
+INSERT INTO exame (id_atendimento, tipo_exame, resultado, data_realizacao) VALUES
+(1, 'Hemograma', 'Plaquetas dentro do normal', '2024-10-10'),
+(2, 'Bioquímica', 'Glicemia normal', '2024-10-11');
+3. Consultas SQL (SELECT)
+-- ======================================================
+-- CONSULTAS SELECT COMPLETAS
+-- ======================================================
+SELECT a.nome AS animal, a.especie, c.nome AS tutor
+FROM animal a
+JOIN cliente c ON a.id_cliente = c.id_cliente
+ORDER BY tutor;
+SELECT ag.id_agendamento, ag.data_agendamento, ag.hora_agendamento,
+v.nome AS veterinario, s.descricao AS servico
+FROM agendamento ag
+JOIN veterinario v ON ag.id_veterinario = v.id_veterinario
+JOIN servico s ON ag.id_servico = s.id_servico
+WHERE ag.data_agendamento >= CURDATE()
+ORDER BY ag.data_agendamento;
+SELECT at.id_atendimento, at.data_atendimento,
+an.nome AS animal, v.nome AS veterinario,
+s.descricao AS servico
+FROM atendimento at
+JOIN animal an ON at.id_animal = an.id_animal
+JOIN veterinario v ON at.id_veterinario = v.id_veterinario
+JOIN servico s ON at.id_servico = s.id_servico
+ORDER BY at.data_atendimento DESC;
+SELECT * FROM servico
+WHERE preco > 100
+ORDER BY preco DESC;
+SELECT e.id_exame, e.tipo_exame, e.data_realizacao,
+a.id_atendimento, an.nome AS animal
+FROM exame e
+JOIN atendimento a ON e.id_atendimento = a.id_atendimento
+JOIN animal an ON a.id_animal = an.id_animal;
+4. Comandos UPDATE e DELETE
+-- ======================================================
+-- COMANDOS UPDATE E DELETE COMPLETOS
+-- ======================================================
+UPDATE cliente
+SET telefone = '(11)95555-9999'
+WHERE id_cliente = 1;
+UPDATE animal
+SET peso = 31.0
+WHERE id_animal = 1;
+UPDATE servico
+SET preco = 160.00
+WHERE id_servico = 3;
+DELETE FROM agendamento
+WHERE id_agendamento = 3;
+DELETE FROM exame
+WHERE id_exame = 2;
+DELETE FROM animal
+WHERE id_animal = 3;
