@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbearia do Cauã | Agendamento</title>
+<style>
+:root{--bg:#101010;--panel:#1b1b1b;--gold:#d6ad62;--muted:#aaa;--white:#f7f5f0}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top right,#302619 0,#101010 38%);color:var(--white);font-family:Arial,sans-serif;min-height:100vh}
+header{padding:22px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff18}
+.brand{font-weight:800;letter-spacing:1.5px;font-size:20px}.brand span{color:var(--gold)}
+header small{color:var(--muted);letter-spacing:2px}
+main{max-width:1100px;margin:38px auto;padding:0 22px}
+.intro{text-align:center;margin-bottom:30px}.eyebrow{color:var(--gold);letter-spacing:3px;font-size:12px;font-weight:bold}
+h1{font-size:clamp(30px,5vw,48px);margin:10px 0}.intro p{color:var(--muted);margin:0}
+.layout{display:grid;grid-template-columns:1.3fr .7fr;gap:22px}
+.card{background:linear-gradient(145deg,#222,#171717);border:1px solid #ffffff17;border-radius:18px;padding:25px;box-shadow:0 18px 45px #0005}
+h2{font-size:19px;margin:0 0 20px}.step{color:var(--gold);font-size:12px;font-weight:bold;letter-spacing:1.5px;margin-bottom:8px}
+label{display:block;font-size:13px;color:#ddd;margin:15px 0 8px}
+input,select{width:100%;padding:13px 14px;border:1px solid #444;border-radius:9px;background:#111;color:#fff;font:inherit;outline:none}
+input:focus,select:focus{border-color:var(--gold)}
+.services,.barbers,.slots{display:grid;gap:10px}
+.services{grid-template-columns:repeat(3,1fr)}.barbers{grid-template-columns:repeat(2,1fr)}.slots{grid-template-columns:repeat(4,1fr)}
+.choice{border:1px solid #454545;background:#151515;color:#eee;border-radius:10px;padding:13px 8px;text-align:center;cursor:pointer;transition:.2s}
+.choice:hover{border-color:var(--gold);transform:translateY(-2px)}.choice.active{border-color:var(--gold);background:#3a2e1c}
+.choice strong{display:block;font-size:14px}.choice small{display:block;color:var(--muted);margin-top:5px}
+.slots .choice{padding:10px 5px;font-size:13px}.slots .choice:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.primary{width:100%;border:0;border-radius:10px;background:var(--gold);color:#17120a;padding:15px;font-size:15px;font-weight:800;cursor:pointer;margin-top:20px;transition:.2s}
+.primary:hover{background:#edc77d}.summary{position:sticky;top:20px;height:max-content}
+.summary h2{color:var(--gold)}.summary-row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #ffffff16;font-size:14px}.summary-row span:first-child{color:var(--muted)}
+.total{font-size:22px;color:var(--gold);font-weight:bold}
+.note{font-size:12px;line-height:1.6;color:var(--muted);margin-top:18px}
+.success{display:none;margin-top:18px;padding:16px;border-radius:10px;background:#183523;border:1px solid #39754d;color:#d8ffe3;line-height:1.6}
+footer{text-align:center;color:#777;font-size:12px;padding:28px}
+@media(max-width:780px){.layout{grid-template-columns:1fr}.summary{position:static}.services{grid-template-columns:1fr}.slots{grid-template-columns:repeat(3,1fr)}header{padding:18px 22px}}
+</style>
+</head>
+<body>
+<header><div class="brand">BARBEARIA <span>DO CAUÃ</span></div><small>ESTILO & TRADIÇÃO</small></header>
+<main>
+  <section class="intro"><div class="eyebrow">AGENDE SEU HORÁRIO</div><h1>Seu estilo começa aqui.</h1><p>Escolha o serviço, o profissional e o melhor horário para você.</p></section>
+  <div class="layout">
+    <section class="card">
+      <div class="step">01 — SERVIÇO</div><h2>O que você deseja fazer?</h2>
+      <div class="services" id="services">
+        <button class="choice active" data-service="Corte" data-price="35"><strong>Corte</strong><small>R$ 35,00 · 40 min</small></button>
+        <button class="choice" data-service="Barba" data-price="25"><strong>Barba</strong><small>R$ 25,00 · 30 min</small></button>
+        <button class="choice" data-service="Combo" data-price="55"><strong>Corte + Barba</strong><small>R$ 55,00 · 60 min</small></button>
+      </div>
+      <div class="step" style="margin-top:27px">02 — PROFISSIONAL</div><h2>Escolha seu barbeiro</h2>
+      <div class="barbers" id="barbers">
+        <button class="choice active" data-barber="Cauã"><strong>Cauã</strong><small>Barbeiro</small></button>
+        <button class="choice" data-barber="Profissional 2"><strong>Profissional 2</strong><small>Barbeiro</small></button>
+      </div>
+      <div class="step" style="margin-top:27px">03 — DATA E HORÁRIO</div><h2>Quando deseja vir?</h2>
+      <label for="date">Data do agendamento</label><input type="date" id="date">
+      <label>Horários disponíveis</label><div class="slots" id="slots"></div>
+      <div class="step" style="margin-top:27px">04 — SEUS DADOS</div><h2>Como podemos identificar sua reserva?</h2>
+      <label for="customer">Nome completo</label><input id="customer" type="text" placeholder="Digite seu nome">
+      <label for="phone">Telefone</label><input id="phone" type="tel" placeholder="(00) 00000-0000">
+      <button class="primary" id="confirm">CONFIRMAR AGENDAMENTO</button>
+      <div class="success" id="success"></div>
+    </section>
+    <aside class="card summary">
+      <div class="step">RESUMO</div><h2>Seu agendamento</h2>
+      <div class="summary-row"><span>Serviço</span><strong id="sumService">Corte</strong></div>
+      <div class="summary-row"><span>Profissional</span><strong id="sumBarber">Cauã</strong></div>
+      <div class="summary-row"><span>Data</span><strong id="sumDate">Selecione</strong></div>
+      <div class="summary-row"><span>Horário</span><strong id="sumTime">Selecione</strong></div>
+      <div class="summary-row"><span>Valor</span><strong class="total" id="sumPrice">R$ 35,00</strong></div>
+      <p class="note">Este é um sistema demonstrativo (MVP). Os agendamentos ficam salvos neste navegador para fins de apresentação. Para uso real por vários clientes, será necessário conectar um banco de dados e um servidor.</p>
+    </aside>
+  </div>
+</main>
+<footer>© 2026 Barbearia do Cauã · Todos os direitos reservados</footer>
+<script>
+const $ = id => document.getElementById(id);
+let service='Corte', price=35, barber='Cauã', time='';
+const times=['09:00','09:30','10:00','10:30','11:00','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00'];
+const today=new Date(); today.setMinutes(today.getMinutes()-today.getTimezoneOffset());
+$('date').min=today.toISOString().slice(0,10);
+$('date').value=today.toISOString().slice(0,10);
+function money(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function updateSummary(){
+ $('sumService').textContent=service; $('sumBarber').textContent=barber;
+ $('sumPrice').textContent=money(price);
+ $('sumDate').textContent=$('date').value?new Date($('date').value+'T12:00:00').toLocaleDateString('pt-BR'):'Selecione';
+ $('sumTime').textContent=time||'Selecione';
+}
+function renderSlots(){
+ const date=$('date').value; const bookings=JSON.parse(localStorage.getItem('barbeariaBookings')||'[]');
+ $('slots').innerHTML=''; time='';
+ times.forEach(t=>{
+   const taken=bookings.some(b=>b.date===date&&b.barber===barber&&b.time===t);
+   const btn=document.createElement('button'); btn.className='choice';btn.textContent=t;btn.disabled=taken;
+   if(taken)btn.title='Horário já reservado neste navegador';
+   btn.addEventListener('click',()=>{document.querySelectorAll('#slots .choice').forEach(x=>x.classList.remove('active'));btn.classList.add('active');time=t;updateSummary();});
+   $('slots').appendChild(btn);
+ });
+ updateSummary();
+}
+document.querySelectorAll('#services .choice').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('#services .choice').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+ service=btn.dataset.service;price=Number(btn.dataset.price);updateSummary();
+}));
+document.querySelectorAll('#barbers .choice').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('#barbers .choice').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+ barber=btn.dataset.barber;renderSlots();
+}));
+$('date').addEventListener('change',renderSlots);
+$('confirm').addEventListener('click',()=>{
+ const customer=$('customer').value.trim(),phone=$('phone').value.trim(),date=$('date').value;
+ if(!customer||!phone||!date||!time){alert('Preencha seu nome, telefone, data e escolha um horário.');return;}
+ const bookings=JSON.parse(localStorage.getItem('barbeariaBookings')||'[]');
+ if(bookings.some(b=>b.date===date&&b.barber===barber&&b.time===time)){alert('Este horário acabou de ser reservado. Escolha outro.');renderSlots();return;}
+ const booking={customer,phone,service,price,barber,date,time,createdAt:new Date().toISOString()};
+ bookings.push(booking);localStorage.setItem('barbeariaBookings',JSON.stringify(bookings));
+ $('success').style.display='block';
+ $('success').innerHTML='<strong>Agendamento confirmado!</strong><br>'+customer+' — '+service+' com '+barber+'<br>'+new Date(date+'T12:00:00').toLocaleDateString('pt-BR')+' às '+time+'<br>Valor: '+money(price);
+ renderSlots();
+});
+renderSlots();
+</script>
+</body>
+</html>
